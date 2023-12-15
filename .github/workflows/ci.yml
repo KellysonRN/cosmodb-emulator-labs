@@ -14,10 +14,10 @@ jobs:
         run: >-
           Write-Host "Launching Cosmos DB Emulator"
           Import-Module "$env:ProgramFiles\Azure Cosmos DB Emulator\PSModules\Microsoft.Azure.CosmosDB.Emulator"
-          Start-CosmosDbEmulator
+          Start-CosmosDbEmulator -EnableGremlin
 
-      - name: Run .NET build
-        run: dotnet build
+      - name: Create DB
+        run: az cosmosdb gremlin database create --account-name localhost:8081 --key "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==" --name db1
 
       - name: Run App
         run: dotnet run --project GremlinNetSample
