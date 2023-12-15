@@ -11,7 +11,7 @@ jobs:
       - name: Checkout (GitHub)
         uses: actions/checkout@v3
       - name: Start Azure Cosmos DB emulator
-        run: >-
+        run: |
           Import-Module "$env:ProgramFiles\Azure Cosmos DB Emulator\PSModules\Microsoft.Azure.CosmosDB.Emulator"
 
           $startEmulatorCmd = "Start-CosmosDbEmulator -NoFirewall -NoUI"
