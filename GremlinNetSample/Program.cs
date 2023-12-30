@@ -20,7 +20,7 @@ namespace GremlinNetSample
         /// <summary>
         /// The Cosmos DB hostname
         /// </summary>
-        private const string Hostname = "172.29.176.1";
+        private const string Hostname = "localhost";
 
         /// <summary>
         /// The port
