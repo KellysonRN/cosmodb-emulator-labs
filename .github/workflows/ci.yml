@@ -13,7 +13,7 @@ jobs:
       - name: Start Azure Cosmos DB emulator
         run: |
           Import-Module "$env:ProgramFiles\Azure Cosmos DB Emulator\PSModules\Microsoft.Azure.CosmosDB.Emulator"
-          $startEmulatorCmd = "Start-CosmosDbEmulator -NoFirewall -NoUI -EnableGremlin
+          $startEmulatorCmd = "Start-CosmosDbEmulator -NoFirewall -NoUI -EnableGremlin"
           Write-Host $startEmulatorCmd
           Invoke-Expression -Command $startEmulatorCmd    
           
