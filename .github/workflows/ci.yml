@@ -40,3 +40,9 @@ jobs:
             if ($status -ne "Running") {
               Write-Error "Emulator failed to start"
             }   
+
+      - name: Run .NET build
+        run: dotnet build
+
+      - name: Run App
+        run: dotnet run --project GremlinNetSample
