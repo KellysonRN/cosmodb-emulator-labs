@@ -12,9 +12,31 @@ jobs:
         uses: actions/checkout@v3
       - name: Start Azure Cosmos DB emulator
         run: |
+          Write-Host "Starting Cosmos DB Emulator" -ForegroundColor green 
           Import-Module "$env:ProgramFiles\Azure Cosmos DB Emulator\PSModules\Microsoft.Azure.CosmosDB.Emulator"
           $startEmulatorCmd = "Start-CosmosDbEmulator -NoFirewall -NoUI -EnableGremlin"
           Write-Host $startEmulatorCmd
-          Invoke-Expression -Command $startEmulatorCmd    
-          
-        
+          Invoke-Expression -Command $startEmulatorCmd
+          for ($i=0; $i -lt 5; $i++) {
+              $status = Get-CosmosDbEmulatorStatus
+              Write-Host "Cosmos DB Emulator Status: $status"
+              if ($status -ne "Running") {
+                sleep 30;
+              }
+              else {
+                Write-Host "Cosmos DB Emulator Status: $status"
+                break;
+              }
+            }
+            if ($status -ne "Running") {
+              Write-Host "Shutting down and restarting"
+              Start-Process "$env:temp\Azure Cosmos DB Emulator\SourceDir\Azure Cosmos DB Emulator\CosmosDB.Emulator.exe" "/Shutdown" -Verb RunAs
+              sleep 30;
+            }
+            else {
+              Write-Host "Cosmos DB Emulator Status: $status"
+              break;
+            }
+            if ($status -ne "Running") {
+              Write-Error "Emulator failed to start"
+            }   
