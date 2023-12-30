@@ -49,6 +49,10 @@ jobs:
         run: |
            az cosmosdb collection create --collection-name "coll1" --partition-key-path "/pk" --key "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==" --db-name "db1" --url-connection "https://localhost:8081"
 
+      - name: List Collections  
+        run: |
+          az cosmosdb collection list --query "[].{CollectionName:id,PartitionKey:partitionKey}" --key "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==" --db-name "db1" --url-connection "https://localhost:8081"  -o json
+
       - name: Run .NET build
         run: dotnet build
 
