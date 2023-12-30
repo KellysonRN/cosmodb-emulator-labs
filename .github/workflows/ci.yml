@@ -12,17 +12,11 @@ jobs:
         uses: actions/checkout@v3
       - name: Start Azure Cosmos DB emulator
         run: |
-          Write-Host "Downloading Cosmos Emulator - $env:EMULATORMSIURL" -ForegroundColor green 
-          Invoke-WebRequest "$env:EMULATORMSIURL" -OutFile "$env:temp\azure-cosmosdb-emulator.msi"
-          Write-Host "Finished Downloading Cosmos Emulator - $env:temp\azure-cosmosdb-emulator.msi" -ForegroundColor green 
-          dir "$env:temp" 
-          choco install lessmsi
-          choco upgrade lessmsi
-          mkdir "$env:temp\Azure Cosmos DB Emulator"
-          lessmsi x "$env:temp\azure-cosmosdb-emulator.msi" "$env:temp\Azure Cosmos DB Emulator\"
-          Write-Host "Starting Cosmos DB Emulator" -ForegroundColor green 
-          Start-Process "$env:temp\Azure Cosmos DB Emulator\SourceDir\Azure Cosmos DB Emulator\CosmosDB.Emulator.exe" "/NoExplorer /NoUI /EnableGremlinEndpoint /DisableRateLimiting /PartitionCount=100 /Consistency=Strong /enableRio /overrides=sqlAllowGroupByClause:true" -Verb RunAs
-          Import-Module "$env:temp\Azure Cosmos DB Emulator\SourceDir\Azure Cosmos DB Emulator\PSModules\Microsoft.Azure.CosmosDB.Emulator"
+          Import-Module "$env:ProgramFiles\Azure Cosmos DB Emulator\PSModules\Microsoft.Azure.CosmosDB.Emulator"
+          $startEmulatorCmd = "Start-CosmosDbEmulator -NoFirewall -NoUI -EnableGremlin
+          Write-Host $startEmulatorCmd
+          Invoke-Expression -Command $startEmulatorCmd
+
           Get-Item env:* | Sort-Object -Property Name
           for ($i=0; $i -lt 10; $i++) {
             $status=Get-CosmosDbEmulatorStatus 
@@ -33,6 +27,8 @@ jobs:
               break;
             }
           }
+
+
+         
           
-      - name: Run App
-        run: dotnet run --project GremlinNetSample
+        
