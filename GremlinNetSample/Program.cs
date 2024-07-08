@@ -16,7 +16,6 @@ namespace GremlinNetSample
         // Azure Cosmos DB Configuration variables
 
         #region Config
-
         /// <summary>
         /// The Cosmos DB hostname
         /// </summary>
